@@ -20,7 +20,7 @@ class Porco extends BaseClass {
   }
   score(){
     if (this.visibilidade<0 && this.visibilidade> -1005){
-      pontos++;
+      points++;
     }
     }
 }

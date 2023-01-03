@@ -10,8 +10,8 @@ var caixa3, caixa4, porco2, tronco2;
 var caixa5, tronco3, tronco4;
 var fundoImg, solo, plataforma;
 var bird, estilingue;
-var estado = "no estilingue";
-var pontos = 0;
+var estado = "loaded";
+var points = 0;
 var chances= 3;
 var reiniciar;
 
@@ -64,7 +64,7 @@ function draw(){
     noStroke();
     textSize(35);
     fill("white");
-    text("Pontos: "+pontos, width-250, 50);
+    text("Points: "+points, width-250, 50);
     text(chances, 110, 40);
     image(bird.image,70,13,30,30);
 
@@ -87,7 +87,7 @@ function draw(){
     tronco4.display();
     log5.display();
 
-    if(chances<=0 && estado === "no estilingue"){
+    if(chances<=0 && estado === "loaded"){
     }else{
         bird.display(); 
     }
@@ -105,34 +105,34 @@ function draw(){
         }
     } 
 
-    if (pontos === 400){
+    if (points === 400){
         textSize(50);
         fill("white");
-        text("Você venceu!",450,200);
+        text("You win!",450,200);
     } else if (chances<=0){
         textSize(50);
         fill("white");
-        text("Tente novamente...",450,200);
+        text("Try again...",450,200);
     }
     
-    if (mouseIsPressed && chances > 0 && estado === "no estilingue"){
+    if (mouseIsPressed && chances > 0 && estado === "loaded"){
         Body.setPosition(bird.body, {x: mouseX , y: mouseY});
     }
 }
 function mousePressed(){
-    if(estado === "lançado" && chances > 0) {
+    if(estado === "released" && chances > 0) {
         estilingue.ligar();
         Body.setPosition(bird.body, {x: 200, y: 50});
         Body.setAngle(bird.body,0);
-        estado = "no estilingue";
+        estado = "loaded";
         bird.trajetoria = []; 
     }
 }
 
 function mouseReleased(){
-    if (estado === "no estilingue" && chances>0){
+    if (estado === "loaded" && chances>0){
         estilingue.voar();
-        estado = "lançado";
+        estado = "released";
         chances--;
     }
 }
@@ -142,13 +142,13 @@ function keyPressed(){
         estilingue.ligar();
         Body.setPosition(bird.body, {x: 200, y: 50});
         Body.setAngle(bird.body,0);
-        estado = "no estilingue";
+        estado = "loaded";
         bird.trajetoria = [];  
     }
 }
 
 async function getBackgroundImg(){
-    var response = await fetch("http://worldtimeapi.org/api/timezone/America/Sao_Paulo");
+    var response = await fetch("http://worldtimeapi.org/api/timezone/Europe/London");
     console.log(response);
     var responseJSON = await response.json();
     console.log(responseJSON);
