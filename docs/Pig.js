@@ -1,8 +1,8 @@
-class Porco extends BaseClass {
+class Pig extends BaseClass {
   constructor(x, y){
     super(x,y,60,60);
     this.image = loadImage("sprites/enemy.png");
-    this.visibilidade = 255;
+    this.visibility = 255;
   }
   display() {
     // console.log(this.body.speed);
@@ -11,15 +11,15 @@ class Porco extends BaseClass {
     } else {
         World.remove(world, this.body);
         push();
-        this.visibilidade = this.visibilidade - 5;
-        tint(255, this.visibilidade);
+        this.visibility = this.visibility - 5;
+        tint(255, this.visibility);
         imageMode(CENTER)
         image(this.image, this.body.position.x, this.body.position.y,60,60);
         pop();
     }
   }
   score(){
-    if (this.visibilidade<0 && this.visibilidade> -1005){
+    if (this.visibility<0 && this.visibility> -1005){
       points++;
     }
     }

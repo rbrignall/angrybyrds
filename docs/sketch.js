@@ -5,11 +5,11 @@ const Constraint = Matter.Constraint;
 const Body = Matter.Body;
 
 var engine, world, bg, backgroundImg;
-var caixa1, caixa2, porco1, tronco1;
-var caixa3, caixa4, porco2, tronco2;
-var caixa5, tronco3, tronco4;
+var crate1, crate2, pig1, trunk1;
+var crate3, crate4, pig2, trunk2;
+var crate5, trunk3, trunk4;
 var fundoImg, solo, plataforma;
-var bird, estilingue;
+var bird, sling;
 var estado = "loaded";
 var points = 0;
 var chances= 3;
@@ -21,37 +21,44 @@ function preload() {
 }
 
 function setup(){
-    var canvas = createCanvas(1200,400);
+    // TODO: If width < height, tell user to rotate screen
+    // TODO: move some of these parameters to consts.js
+    var gamewidth = window.innerWidth;
+    var gameheight = window.innerHeight;
+    var baseheight = 60;
+    var groundcoord = gameheight-baseheight;
+    var platformcoord = gameheight-PLATFORMHEIGHT-baseheight;
+    var canvas = createCanvas(gamewidth,gameheight);
     engine = Engine.create();
     world = engine.world;
 
 
-    solo = new Solo(600,height,1200,20);
-    plataforma = new Solo(150, 305, 300, 170);
+    solo = new Solo(gamewidth/2,gameheight-baseheight/2,gamewidth,baseheight);
+    plataforma = new Solo(PLATFORMWIDTH/2, groundcoord-PLATFORMHEIGHT/2, PLATFORMWIDTH, PLATFORMHEIGHT);
 
-    caixa1 = new Caixa(700,320,70,70);
-    caixa2 = new Caixa(920,320,70,70);
-    porco1 = new Porco(810, 350);
-    tronco1 = new Tronco(810,260,300, PI/2);
+    crate1 = new Crate(700,groundcoord,70,70);
+    crate2 = new Crate(920,groundcoord,70,70);
+    pig1 = new Pig(810,groundcoord);
+    trunk1 = new Trunk(810,groundcoord-70,300, PI/2);
 
-    caixa3 = new Caixa(700,240,70,70);
-    caixa4 = new Caixa(920,240,70,70);
-    porco2 = new Porco(810, 220);
+    crate3 = new Crate(700,groundcoord-150,70,70);
+    crate4 = new Crate(920,groundcoord-150,70,70);
+    pig2 = new Pig(810, groundcoord-100);
 
-    tronco3 =  new Tronco(810,180,300, PI/2);
+    trunk3 =  new Trunk(810,groundcoord-220,300, PI/2);
 
-    caixa5 = new Caixa(810,160,70,70);
-    tronco4 = new Tronco(760,120,150, PI/7);
-    log5 = new Tronco(870,120,150, -PI/7);
+    crate5 = new Crate(810,groundcoord-250,70,70);
+    trunk4 = new Trunk(760,groundcoord-250,150, PI/7);
+    log5 = new Trunk(870,groundcoord-250,150, -PI/7);
 
-    bird = new Passaro(200,50);
+    bird = new Byrd(200,platformcoord-255);
 
-    estilingue = new Estilingue(bird.body,{x:200, y:50});
+    sling = new Sling(bird.body,{x:200, y:platformcoord-250});
 
-    reiniciar = createImg("sprites/menu_refresh.png");
-    reiniciar.position(20,12);
-    reiniciar.size(35,35);
-    reiniciar.mouseClicked(()=>{location.reload()});
+    refreshbtn = createImg("sprites/menu_refresh.png");
+    refreshbtn.position(20,12);
+    refreshbtn.size(35,35);
+    refreshbtn.mouseClicked(()=>{location.reload()});
 }
 
 function draw(){
@@ -70,21 +77,21 @@ function draw(){
 
     Engine.update(engine);
     //strokeWeight(4);
-    caixa1.display();
-    caixa2.display();
+    crate1.display();
+    crate2.display();
     solo.display();
-    porco1.display();
-    porco1.score();
-    tronco1.display();
+    pig1.display();
+    pig1.score();
+    trunk1.display();
 
-    caixa3.display();
-    caixa4.display();
-    porco2.display();
-    porco2.score();
-    tronco3.display();
+    crate3.display();
+    crate4.display();
+    pig2.display();
+    pig2.score();
+    trunk3.display();
 
-    caixa5.display();
-    tronco4.display();
+    crate5.display();
+    trunk4.display();
     log5.display();
 
     if(chances<=0 && estado === "loaded"){
@@ -94,14 +101,14 @@ function draw(){
     
     plataforma.display();
     //log6.display();
-    estilingue.display();  
+    sling.display();  
     
+    // Draw next birds:
     if (chances > 1){
-
-        image(bird.image,110,170,50,50);
+        image(bird.image,110,height-310,50,50);
 
         if (chances > 2){
-            image(bird.image,40,170,50,50);
+            image(bird.image,40,height-310,50,50);
         }
     } 
 
@@ -121,17 +128,17 @@ function draw(){
 }
 function mousePressed(){
     if(estado === "released" && chances > 0) {
-        estilingue.ligar();
+        sling.ligar();
         Body.setPosition(bird.body, {x: 200, y: 50});
         Body.setAngle(bird.body,0);
         estado = "loaded";
-        bird.trajetoria = []; 
+        bird.trajectory = []; 
     }
 }
 
 function mouseReleased(){
     if (estado === "loaded" && chances>0){
-        estilingue.voar();
+        sling.voar();
         estado = "released";
         chances--;
     }
@@ -139,11 +146,11 @@ function mouseReleased(){
 
 function keyPressed(){
     if(keyCode === 32 && chances > 0){
-        estilingue.ligar();
+        sling.ligar();
         Body.setPosition(bird.body, {x: 200, y: 50});
         Body.setAngle(bird.body,0);
         estado = "loaded";
-        bird.trajetoria = [];  
+        bird.trajectory = [];  
     }
 }
 

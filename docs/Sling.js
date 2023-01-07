@@ -1,4 +1,4 @@
-class Estilingue{
+class Sling{
     constructor(bodyA, pointB){
         var options = {
             bodyA: bodyA,
@@ -6,29 +6,29 @@ class Estilingue{
             stiffness: 0.04,
             length: 10
         }
-        this.imagem1 = loadImage('sprites/sling1.png');
-        this.imagem2 = loadImage('sprites/sling2.png');
+        this.imagem1 = loadImage('sprites/forkR.png');
+        this.imagem2 = loadImage('sprites/forkL.png');
         this.imagem3 = loadImage('sprites/sling3.png');
         this.pointB = pointB;
         this.bodyA = bodyA;
-        this.estilingue = Constraint.create(options);
-        World.add(world, this.estilingue);
+        this.sling = Constraint.create(options);
+        World.add(world, this.sling);
     }
 
     voar(){
-        this.estilingue.bodyA = null;
+        this.sling.bodyA = null;
     }
 
     ligar(){
-      this.estilingue.bodyA = this.bodyA;
+      this.sling.bodyA = this.bodyA;
     }
 
     display(){
-        image(this.imagem1,200,25);
-        image(this.imagem2,172,20);
-        if (this.estilingue.bodyA) {
-          var pointA = this.estilingue.bodyA.position;
           var pointB = this.pointB;
+        image(this.imagem1,200, pointB.y);//25);
+        image(this.imagem2,200,pointB.y);//20);
+        if (this.sling.bodyA) {
+          var pointA = this.sling.bodyA.position;
           push();
           stroke(48,22,8);
           if (pointA.x < 220){
