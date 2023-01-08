@@ -15,27 +15,27 @@ class Sling{
         World.add(world, this.sling);
     }
 
-    voar(){
+    fire(){
         this.sling.bodyA = null;
     }
 
-    ligar(){
+    mount(){
       this.sling.bodyA = this.bodyA;
     }
 
     display(){
           var pointB = this.pointB;
-        image(this.imagem1,200, pointB.y);//25);
-        image(this.imagem2,200,pointB.y);//20);
+        image(this.imagem1,forkx, pointB.y,FORKw,FORKh);//25);
+        image(this.imagem2,forkx,pointB.y,SMALLFORKw,SMALLFORKh);//20);
         if (this.sling.bodyA) {
           var pointA = this.sling.bodyA.position;
           push();
           stroke(48,22,8);
-          if (pointA.x < 220){
+          if (forkx - pointA.x > -5){
             strokeWeight(15);
-            if(pointA.x < 170){
+            if(forkx - pointA.x > 10){
               strokeWeight(10);
-              if(pointA.x < 100){
+              if(forkx - pointA.x > 40){
                 strokeWeight(7);
               }
             }
@@ -44,7 +44,7 @@ class Sling{
             image(this.imagem3,pointA.x-30, pointA.y-10,15,30);
           } else {
             strokeWeight(10);
-              if(pointA.x > 280){
+              if(pointA.x > PLATFORMWIDTH){
                 strokeWeight(7);
               }
             line(pointA.x+28, pointA.y, pointB.x-15, pointB.y+6);

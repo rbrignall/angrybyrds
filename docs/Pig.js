@@ -1,8 +1,8 @@
 class Pig extends BaseClass {
   constructor(x, y){
-    super(x,y,60,60);
+    super(x,y,PIGr,PIGr);
     this.image = loadImage("sprites/enemy.png");
-    this.visibility = 255;
+    this.points = 200;
   }
   display() {
     // console.log(this.body.speed);
@@ -11,16 +11,15 @@ class Pig extends BaseClass {
     } else {
         World.remove(world, this.body);
         push();
-        this.visibility = this.visibility - 5;
-        tint(255, this.visibility);
+        if (this.points > 0) {
+            points+=5;
+            this.points-=5;
+        }
+        tint(255, this.points * 255 / 200);
         imageMode(CENTER)
-        image(this.image, this.body.position.x, this.body.position.y,60,60);
+        image(this.image, this.body.position.x, this.body.position.y,PIGr,PIGr);
         pop();
     }
   }
-  score(){
-    if (this.visibility<0 && this.visibility> -1005){
-      points++;
-    }
-    }
+
 }

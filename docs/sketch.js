@@ -9,10 +9,11 @@ var crate1, crate2, pig1, trunk1;
 var crate3, crate4, pig2, trunk2;
 var crate5, trunk3, trunk4;
 var fundoImg, solo, plataforma;
-var bird, sling;
+var bird = [], sling;
 var estado = "loaded";
 var points = 0;
 var chances= 3;
+var turn=0;
 var reiniciar;
 
 function preload() {
@@ -21,39 +22,32 @@ function preload() {
 }
 
 function setup(){
-    // TODO: If width < height, tell user to rotate screen
-    // TODO: move some of these parameters to consts.js
-    var gamewidth = window.innerWidth;
-    var gameheight = window.innerHeight;
-    var baseheight = 60;
-    var groundcoord = gameheight-baseheight;
-    var platformcoord = gameheight-PLATFORMHEIGHT-baseheight;
-    var canvas = createCanvas(gamewidth,gameheight);
+   
+    var canvas = createCanvas(GAMEWIDTH,GAMEHEIGHT);
     engine = Engine.create();
     world = engine.world;
 
 
-    solo = new Solo(gamewidth/2,gameheight-baseheight/2,gamewidth,baseheight);
+    solo = new Solo(GAMEWIDTH/2,GAMEHEIGHT-BASEHEIGHT/2,GAMEWIDTH,BASEHEIGHT);
     plataforma = new Solo(PLATFORMWIDTH/2, groundcoord-PLATFORMHEIGHT/2, PLATFORMWIDTH, PLATFORMHEIGHT);
 
-    crate1 = new Crate(700,groundcoord,70,70);
-    crate2 = new Crate(920,groundcoord,70,70);
-    pig1 = new Pig(810,groundcoord);
-    trunk1 = new Trunk(810,groundcoord-70,300, PI/2);
+    crate1 = new Crate(citadelx-TRUNKLONGl+CRATEr/2,groundcoord,CRATEr,CRATEr);
+    crate2 = new Crate(citadelx-CRATEr/2,groundcoord,CRATEr,CRATEr);
+    pig1 = new Pig(citadelx-TRUNKLONGl/2,groundcoord);
+    trunk1 = new Trunk(citadelx-TRUNKLONGl/2,groundcoord-CRATEr,TRUNKLONGl, PI/2);
 
-    crate3 = new Crate(700,groundcoord-150,70,70);
-    crate4 = new Crate(920,groundcoord-150,70,70);
-    pig2 = new Pig(810, groundcoord-100);
+    crate3 = new Crate(citadelx-TRUNKLONGl+CRATEr/2,groundcoord-CRATEr-TRUNKw-30,CRATEr,CRATEr);
+    crate4 = new Crate(citadelx-CRATEr/2,groundcoord-CRATEr-TRUNKw-30,CRATEr,CRATEr);
+    pig2 = new Pig(citadelx-TRUNKLONGl/2, groundcoord-CRATEr-TRUNKw-10);
 
-    trunk3 =  new Trunk(810,groundcoord-220,300, PI/2);
+    trunk3 =  new Trunk(citadelx-TRUNKLONGl/2,groundcoord-2*CRATEr-3*TRUNKw,TRUNKLONGl, PI/2);
 
-    crate5 = new Crate(810,groundcoord-250,70,70);
-    trunk4 = new Trunk(760,groundcoord-250,150, PI/7);
-    log5 = new Trunk(870,groundcoord-250,150, -PI/7);
+    crate5 = new Crate(citadelx-TRUNKLONGl/2,groundcoord-3*CRATEr-3*TRUNKw,CRATEr,CRATEr);
+    trunk4 = new Trunk(citadelx-3*TRUNKLONGl/4,groundcoord-3*CRATEr-4*TRUNKw,TRUNKLONGl/2, PI/7);
+    log5 = new Trunk(citadelx-TRUNKLONGl/4,groundcoord-3*CRATEr-4*TRUNKw,TRUNKLONGl/2, -PI/7);
 
-    bird = new Byrd(200,platformcoord-255);
-
-    sling = new Sling(bird.body,{x:200, y:platformcoord-250});
+    bird[0] = new Byrd(forkx,platformcoord-FORKh-5);
+    sling = new Sling(bird[0].body,{x:forkx, y:platformcoord-FORKh});
 
     refreshbtn = createImg("sprites/menu_refresh.png");
     refreshbtn.position(20,12);
@@ -73,7 +67,7 @@ function draw(){
     fill("white");
     text("Points: "+points, width-250, 50);
     text(chances, 110, 40);
-    image(bird.image,70,13,30,30);
+    image(bird[0].image,70,13,30,30);
 
     Engine.update(engine);
     //strokeWeight(4);
@@ -81,22 +75,21 @@ function draw(){
     crate2.display();
     solo.display();
     pig1.display();
-    pig1.score();
     trunk1.display();
 
     crate3.display();
     crate4.display();
     pig2.display();
-    pig2.score();
     trunk3.display();
 
     crate5.display();
     trunk4.display();
     log5.display();
 
-    if(chances<=0 && estado === "loaded"){
+    if(chances<=0){
     }else{
-        bird.display(); 
+        for (i=0; i <= turn; i++)
+        bird[i].display(); 
     }
     
     plataforma.display();
@@ -105,10 +98,11 @@ function draw(){
     
     // Draw next birds:
     if (chances > 1){
-        image(bird.image,110,height-310,50,50);
+        image(bird[turn].image,forkx*2/3,platformcoord
+              -BYRDr,BYRDr,BYRDr);
 
         if (chances > 2){
-            image(bird.image,40,height-310,50,50);
+            image(bird[turn].image,forkx/3,platformcoord-BYRDr,BYRDr,BYRDr);
         }
     } 
 
@@ -123,34 +117,44 @@ function draw(){
     }
     
     if (mouseIsPressed && chances > 0 && estado === "loaded"){
-        Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+        Body.setPosition(bird[turn].body, {x: mouseX , y: mouseY});
     }
 }
 function mousePressed(){
     if(estado === "released" && chances > 0) {
-        sling.ligar();
-        Body.setPosition(bird.body, {x: 200, y: 50});
-        Body.setAngle(bird.body,0);
+        sling.mount();
+        Body.setPosition(bird[turn].body, {x: forkx, y: platformcoord-FORKh-5});
+        Body.setAngle(bird[turn].body,0);
         estado = "loaded";
-        bird.trajectory = []; 
+        bird[turn].trajectory = []; 
     }
 }
 
 function mouseReleased(){
     if (estado === "loaded" && chances>0){
-        sling.voar();
+        sling.fire();
         estado = "released";
+        // TODO: this should all happen when the previous bird has finished, maybe
         chances--;
+        setTimeout(() => {
+            turn++;
+            if(chances>0) {
+                bird[turn] = new Byrd(forkx,platformcoord-FORKh-5);
+                //sling = new Sling(bird[turn].body,{x:forkx, y:platformcoord-FORKh});
+                sling.bodyA = bird[turn].body;
+                sling.mount();
+            }
+        },4000);
     }
 }
 
 function keyPressed(){
     if(keyCode === 32 && chances > 0){
-        sling.ligar();
-        Body.setPosition(bird.body, {x: 200, y: 50});
-        Body.setAngle(bird.body,0);
+        sling.mount();
+        Body.setPosition(bird[turn].body, {x: 200, y: 50});
+        Body.setAngle(bird[turn].body,0);
         estado = "loaded";
-        bird.trajectory = [];  
+        bird[turn].trajectory = [];
     }
 }
 
