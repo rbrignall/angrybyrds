@@ -1,8 +1,9 @@
 class Pig extends BaseClass {
   constructor(x, y){
-    super(x,y,PIGr,PIGr);
-    this.image = loadImage("sprites/enemy.png");
+    super(x,y,PIGx,PIGy);
+    this.image = loadImage("sprites/enemyhat.png");
     this.points = 200;
+      this.status = "alive";
   }
   display() {
     // console.log(this.body.speed);
@@ -10,6 +11,7 @@ class Pig extends BaseClass {
         super.display();
     } else {
         World.remove(world, this.body);
+        this.status = "dead";
         push();
         if (this.points > 0) {
             points+=5;
@@ -17,7 +19,7 @@ class Pig extends BaseClass {
         }
         tint(255, this.points * 255 / 200);
         imageMode(CENTER)
-        image(this.image, this.body.position.x, this.body.position.y,PIGr,PIGr);
+        image(this.image, this.body.position.x, this.body.position.y,PIGx,PIGy);
         pop();
     }
   }

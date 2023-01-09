@@ -8,6 +8,7 @@ class Trunk extends BaseClass{
   }
   display() {
     // console.log(this.body.speed);
+    // TODO: Speed should be proportional to dimensions of game! 
     if(this.body.speed < 6){
         super.display();
     } else {

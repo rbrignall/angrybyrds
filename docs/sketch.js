@@ -10,11 +10,17 @@ var crate3, crate4, pig2, trunk2;
 var crate5, trunk3, trunk4;
 var fundoImg, solo, plataforma;
 var bird = [], sling;
-var estado = "loaded";
 var points = 0;
-var chances= 3;
-var turn=0;
+var chances= CHANCES;
+var currentbird=CHANCES-1;
 var reiniciar;
+var gamestate = "playing";
+var starscore = [430,480,530];
+var isTwoStar = false;
+var isThreeStar = false;
+var isFourStar = false;
+var highscore = localStorage.getItem("highscore") || null;
+
 
 function preload() {
     getBackgroundImg();
@@ -46,8 +52,12 @@ function setup(){
     trunk4 = new Trunk(citadelx-3*TRUNKLONGl/4,groundcoord-3*CRATEr-4*TRUNKw,TRUNKLONGl/2, PI/7);
     log5 = new Trunk(citadelx-TRUNKLONGl/4,groundcoord-3*CRATEr-4*TRUNKw,TRUNKLONGl/2, -PI/7);
 
-    bird[0] = new Byrd(forkx,platformcoord-FORKh-5);
-    sling = new Sling(bird[0].body,{x:forkx, y:platformcoord-FORKh});
+    bird[2] = new Byrd(forkx,platformcoord-FORKh-5);
+    bird[2].status = "loaded";
+    bird[1] = new Byrd(forkx*2/3,platformcoord-BYRDr);
+    bird[0] = new Byrd(forkx/3,platformcoord-BYRDr);
+
+    sling = new Sling(bird[currentbird].body,{x:forkx, y:platformcoord-FORKh});
 
     refreshbtn = createImg("sprites/menu_refresh.png");
     refreshbtn.position(20,12);
@@ -86,80 +96,128 @@ function draw(){
     trunk4.display();
     log5.display();
 
-    if(chances<=0){
-    }else{
-        for (i=0; i <= turn; i++)
+    for (i=0; i < CHANCES; i++)
         bird[i].display(); 
-    }
+    
     
     plataforma.display();
     //log6.display();
     sling.display();  
     
-    // Draw next birds:
-    if (chances > 1){
-        image(bird[turn].image,forkx*2/3,platformcoord
-              -BYRDr,BYRDr,BYRDr);
-
-        if (chances > 2){
-            image(bird[turn].image,forkx/3,platformcoord-BYRDr,BYRDr,BYRDr);
+    if (pig1.status === "dead" && pig2.status === "dead"){
+        if(gamestate != "win") {
+            points += chances * 50;
+            gamestate = "win";
         }
-    } 
-
-    if (points === 400){
-        textSize(50);
-        fill("white");
-        text("You win!",450,200);
-    } else if (chances<=0){
-        textSize(50);
-        fill("white");
-        text("Try again...",450,200);
+        gameOverModal();
+    } else if ((chances<=0 && gamestate === "pending") || gamestate === "lose"){
+        gamestate = "lose";
+        gameOverModal();
     }
     
-    if (mouseIsPressed && chances > 0 && estado === "loaded"){
-        Body.setPosition(bird[turn].body, {x: mouseX , y: mouseY});
-    }
-}
-function mousePressed(){
-    if(estado === "released" && chances > 0) {
-        sling.mount();
-        Body.setPosition(bird[turn].body, {x: forkx, y: platformcoord-FORKh-5});
-        Body.setAngle(bird[turn].body,0);
-        estado = "loaded";
-        bird[turn].trajectory = []; 
+    if (mouseIsPressed && chances > 0 && bird[currentbird].status === "loaded"){
+        Body.setPosition(bird[currentbird].body, {x: mouseX , y: mouseY});
     }
 }
 
 function mouseReleased(){
-    if (estado === "loaded" && chances>0){
+    // FIRE!
+    if ( chances>0 && bird[currentbird].status === "loaded"){
         sling.fire();
-        estado = "released";
-        // TODO: this should all happen when the previous bird has finished, maybe
+        bird[currentbird].status = "released";
         chances--;
         setTimeout(() => {
-            turn++;
+            // Load next bird after 2 second delay
+            currentbird--;
             if(chances>0) {
-                bird[turn] = new Byrd(forkx,platformcoord-FORKh-5);
-                //sling = new Sling(bird[turn].body,{x:forkx, y:platformcoord-FORKh});
-                sling.bodyA = bird[turn].body;
+                Body.setPosition(bird[currentbird].body, {x: forkx, y: platformcoord-FORKh-5});
+                Body.setAngle(bird[currentbird].body,0);
+                sling.bodyA = bird[currentbird].body;
                 sling.mount();
+                bird[currentbird+1].trajectory = [];
+                bird[currentbird].status = "loaded";
+            } else {
+                gamestate = "pending";
             }
-        },4000);
+        },2000);
     }
 }
-
+/*
 function keyPressed(){
     if(keyCode === 32 && chances > 0){
         sling.mount();
-        Body.setPosition(bird[turn].body, {x: 200, y: 50});
-        Body.setAngle(bird[turn].body,0);
-        estado = "loaded";
-        bird[turn].trajectory = [];
+        bird[currentbird].status = "loaded";
+        Body.setPosition(bird[currentbird].body, {x: 200, y: 50});
+        Body.setAngle(bird[currentbird].body,0);
+        bird[currentbird].trajectory = [];
     }
+}
+*/
+
+function triggerStars(){
+    if (points > highscore) {
+        highscore = points;
+        localStorage.setItem("highscore",highscore);
+    }
+    if(points > starscore[0])
+        setTimeout(() => {
+            isTwoStar = true;
+            if(points > starscore[1])
+                setTimeout(() => {
+                    isThreeStar = true;
+                    if(points > starscore[2])
+                        setTimeout(() => {
+                            isFourStar = true;
+                        },750);  
+                },750);
+        },750);
+}
+
+function gameOverModal(){
+    refreshbtn.position(GAMEWIDTH/2,GAMEHEIGHT-CRATEr);
+    refreshbtn.size(CRATEr,CRATEr);
+    triggerStars();
+    push();
+    fill(51);
+    rect(GAMEWIDTH/2, GAMEHEIGHT/2, GAMEWIDTH-40, GAMEHEIGHT-40);
+    textSize(30);
+    textAlign(CENTER);    
+    fill("white");
+    text("Score: " + points + "  Highscore: " + highscore,GAMEWIDTH/2,GAMEHEIGHT/2-125);
+    textSize(50);
+    
+    if (gamestate=== "win"){
+        text("Sing joyfully!",GAMEWIDTH/2,GAMEHEIGHT/2+50);
+        textSize(60);
+        fill(255, 204, 0);
+        text("S",GAMEWIDTH/2-90,GAMEHEIGHT/2-50)
+        if(!isTwoStar) {
+            textSize(40);
+            fill("black");
+        }
+        text("A",GAMEWIDTH/2-30,GAMEHEIGHT/2-50);
+        if(!isThreeStar) {
+            textSize(40);
+            fill("black");
+        }
+        text("T",GAMEWIDTH/2+30,GAMEHEIGHT/2-50);
+        if(!isFourStar) {
+            textSize(40);
+            fill("black");
+        }
+        text("B",GAMEWIDTH/2+90,GAMEHEIGHT/2-50);
+        
+    } else {
+        text("Lord in Thy Wrath",GAMEWIDTH/2,GAMEHEIGHT/2+50);
+        
+    }
+
+    
+    pop();
 }
 
 async function getBackgroundImg(){
-    var response = await fetch("http://worldtimeapi.org/api/timezone/Europe/London");
+    var response = await fetch("https://worldtimeapi.org/api/timezone/Europe/London");
     console.log(response);
     var responseJSON = await response.json();
     console.log(responseJSON);

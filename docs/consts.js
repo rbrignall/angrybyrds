@@ -10,6 +10,8 @@ const citadelx = GAMEWIDTH - 100;
 const forkx = PLATFORMWIDTH*2/3;
 const BYRDr = GAMEHEIGHT / 10;
 const PIGr = GAMEHEIGHT * 3 / 25;
+const PIGy = PIGr;
+const PIGx = PIGy * 40 / 47;
 const CRATEr = GAMEHEIGHT * 7 / 50;
 const TRUNKLONGl = GAMEWIDTH / 4;
 const TRUNKw = GAMEHEIGHT / 25;
@@ -17,3 +19,5 @@ const FORKh = GAMEHEIGHT/2.5;
 const FORKw = FORKh * 3 / 25;
 const SMALLFORKh = FORKh*3/5;
 const SMALLFORKw = FORKw/2;
+const CHANCES = 3;
+// TODO: add "death" speeds as function of game dimensions
