@@ -20,4 +20,7 @@ const FORKw = FORKh * 3 / 25;
 const SMALLFORKh = FORKh*3/5;
 const SMALLFORKw = FORKw/2;
 const CHANCES = 3;
-// TODO: add "death" speeds as function of game dimensions
+// "Death" speeds:
+const PIGDIESPEED = GAMEHEIGHT * 3 / 500;
+const CRATEBREAKSPEED = GAMEHEIGHT / 100;
+const TRUNKBREAKSPEED = GAMEHEIGHT * 3 / 250;

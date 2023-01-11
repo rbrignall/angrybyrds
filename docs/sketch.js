@@ -4,6 +4,32 @@ const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 const Body = Matter.Body;
 
+const levelOne = {
+    crates: {
+        crate1: {
+            x: citadelx-TRUNKLONGl+CRATEr/2,
+            y: groundcoord
+        },
+        crate2: {
+            x: citadelx-CRATEr/2,
+            y: groundcoord
+        },
+        crate3: {
+            x: citadelx-TRUNKLONGl+CRATEr/2,
+            y: groundcoord-CRATEr-TRUNKw-30
+        },
+        crate4: {
+            x: citadelx-CRATEr/2,
+            y: groundcoord-CRATEr-TRUNKw-30
+        },
+        crate5: {
+            x: citadelx-TRUNKLONGl/2,
+            y: groundcoord-2*CRATEr-4*TRUNKw
+        }
+    },
+    
+}
+
 var engine, world, bg, backgroundImg;
 var crate1, crate2, pig1, trunk1;
 var crate3, crate4, pig2, trunk2;
@@ -15,7 +41,7 @@ var chances= CHANCES;
 var currentbird=CHANCES-1;
 var reiniciar;
 var gamestate = "playing";
-var starscore = [430,480,530];
+var starscore = [430,520,600];
 var isTwoStar = false;
 var isThreeStar = false;
 var isFourStar = false;
@@ -48,9 +74,9 @@ function setup(){
 
     trunk3 =  new Trunk(citadelx-TRUNKLONGl/2,groundcoord-2*CRATEr-3*TRUNKw,TRUNKLONGl, PI/2);
 
-    crate5 = new Crate(citadelx-TRUNKLONGl/2,groundcoord-3*CRATEr-3*TRUNKw,CRATEr,CRATEr);
-    trunk4 = new Trunk(citadelx-3*TRUNKLONGl/4,groundcoord-3*CRATEr-4*TRUNKw,TRUNKLONGl/2, PI/7);
-    log5 = new Trunk(citadelx-TRUNKLONGl/4,groundcoord-3*CRATEr-4*TRUNKw,TRUNKLONGl/2, -PI/7);
+    crate5 = new Crate(citadelx-TRUNKLONGl/2,groundcoord-2*CRATEr-4*TRUNKw,CRATEr,CRATEr);
+    trunk4 = new Trunk(citadelx-3*TRUNKLONGl/4,groundcoord-2*CRATEr-5*TRUNKw,TRUNKLONGl/2, PI/7);
+    log5 = new Trunk(citadelx-TRUNKLONGl/4,groundcoord-2*CRATEr-5*TRUNKw,TRUNKLONGl/2, -PI/7);
 
     bird[2] = new Byrd(forkx,platformcoord-FORKh-5);
     bird[2].status = "loaded";
@@ -106,7 +132,7 @@ function draw(){
     
     if (pig1.status === "dead" && pig2.status === "dead"){
         if(gamestate != "win") {
-            points += chances * 50;
+            points += chances * 100;
             gamestate = "win";
         }
         gameOverModal();
@@ -218,9 +244,9 @@ function gameOverModal(){
 
 async function getBackgroundImg(){
     var response = await fetch("https://worldtimeapi.org/api/timezone/Europe/London");
-    console.log(response);
+    //console.log(response);
     var responseJSON = await response.json();
-    console.log(responseJSON);
+    //console.log(responseJSON);
 
     var datetime = responseJSON.datetime;
     var hour = datetime.slice(11,13);

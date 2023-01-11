@@ -3,12 +3,18 @@ class Pig extends BaseClass {
     super(x,y,PIGx,PIGy);
     this.image = loadImage("sprites/enemyhat.png");
     this.points = 200;
-      this.status = "alive";
+    this.status = "alive";
+    this.oldspeed = this.body.speed;
   }
   display() {
-    // console.log(this.body.speed);
-    if(this.body.speed < 3){
+    if(Math.abs(this.body.speed - this.oldspeed) < PIGDIESPEED/2) {
         super.display();
+        this.oldspeed=this.body.speed;
+    } else if(Math.abs(this.body.speed - this.oldspeed) < PIGDIESPEED && this.status === "alive" && this.body.speed < 20) {
+        super.display();
+        this.oldspeed=this.body.speed;        
+        this.status="injured";
+        this.image = loadImage("sprites/hurtpig.png");
     } else {
         World.remove(world, this.body);
         this.status = "dead";

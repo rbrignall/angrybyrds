@@ -1,6 +1,6 @@
-class Byrd extends BaseClass {
+class Byrd extends BaseCircleClass {
   constructor(x,y){
-    super(x,y,BYRDr,BYRDr);
+    super(x,y,BYRDr/2);
     this.image = loadImage("sprites/byrd.png");
     this.smokeImg = loadImage("sprites/smoke.png");
     this.trajectory = [];
