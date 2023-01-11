@@ -27,7 +27,44 @@ const levelOne = {
             y: groundcoord-2*CRATEr-4*TRUNKw
         }
     },
-    
+    trunks: {
+        trunk1: {
+            x: citadelx-TRUNKLONGl/2,
+            y: groundcoord-CRATEr,
+            length: TRUNKLONGl,
+            angle: Math.PI/2 
+        },
+         trunk2: {
+            x: citadelx-TRUNKLONGl/2,
+            y: groundcoord-2*CRATEr-3*TRUNKw,
+            length: TRUNKLONGl,
+            angle: Math.PI/2 
+        },
+        trunk3: {
+            x: citadelx-3*TRUNKLONGl/4,
+            y: groundcoord-2*CRATEr-5*TRUNKw,
+            length: TRUNKLONGl/2,
+            angle: Math.PI/7 
+        },
+        trunk4: {
+            x: citadelx-TRUNKLONGl/4,
+            y: groundcoord-2*CRATEr-5*TRUNKw,
+            length: TRUNKLONGl/2,
+            angle: -Math.PI/7
+        },
+    },
+    pigs: {
+        pig1: {
+            x: citadelx-TRUNKLONGl/2,
+            y: groundcoord
+        },
+        pig2: {
+            x: citadelx-TRUNKLONGl/2,
+            y: groundcoord-CRATEr-TRUNKw-10
+        },
+    },
+    chances: CHANCES,
+    starscore: [430,520,600],
 }
 
 var engine, world, bg, backgroundImg;
@@ -51,6 +88,7 @@ var highscore = localStorage.getItem("highscore") || null;
 function preload() {
     getBackgroundImg();
     fundoImg = loadImage("sprites/bg.png");
+    song = loadSound('Gloria.mp3');
 }
 
 function setup(){
@@ -144,6 +182,13 @@ function draw(){
     if (mouseIsPressed && chances > 0 && bird[currentbird].status === "loaded"){
         Body.setPosition(bird[currentbird].body, {x: mouseX , y: mouseY});
     }
+}
+
+function mousePressed() {
+  if (song.isPlaying()) {
+  } else {
+    song.play();
+  }
 }
 
 function mouseReleased(){
