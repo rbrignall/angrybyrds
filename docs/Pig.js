@@ -7,7 +7,7 @@ class Pig extends BaseClass {
     this.oldspeed = this.body.speed;
   }
   display() {
-    if(Math.abs(this.body.speed - this.oldspeed) < PIGDIESPEED/2) {
+    if(Math.abs(this.body.speed - this.oldspeed) < PIGDIESPEED/2 && this.body.speed < 20) {
         super.display();
         this.oldspeed=this.body.speed;
     } else if(Math.abs(this.body.speed - this.oldspeed) < PIGDIESPEED && this.status === "alive" && this.body.speed < 20) {

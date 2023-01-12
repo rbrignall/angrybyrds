@@ -18,11 +18,10 @@ class Byrd extends BaseCircleClass {
       image(this.smokeImg, this.trajectory[i][0], this.trajectory[i][1]);
     }
     if (this.status === "released" && this.body.velocity.x === 0 && this.body.speed < 0.3) 
-        setTimeout( () => {
-            this.status="done";
-            World.remove(world, this.body);
-        },2000);
-    if (this.status != "done")
-      super.display();
+        setTimeout( () => {this.status="done";},2000);
+    if (this.status === "done")
+        World.remove(world, this.body);
+    else
+        super.display();
   }
 }
