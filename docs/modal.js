@@ -1,8 +1,13 @@
 
 
 function gameOverModal(){
-    refreshbtn.position(GAMEWIDTH/2,GAMEHEIGHT-CRATEr);
+    refreshbtn.position(GAMEWIDTH/2-CRATEr/2,GAMEHEIGHT-2*CRATEr);
     refreshbtn.size(CRATEr,CRATEr);
+    menubtn.position(GAMEWIDTH/2-2*CRATEr,GAMEHEIGHT-2*CRATEr);
+    menubtn.size(CRATEr,CRATEr);
+    
+    if (level < 2 && levelunlocked[level+1]) nextbtn.show();
+    
     triggerStars();
     push();
     fill(51);
@@ -10,33 +15,17 @@ function gameOverModal(){
     textSize(30);
     textAlign(CENTER);    
     fill("white");
-    text("Score: " + points + "  Highscore: " + highscore,GAMEWIDTH/2,GAMEHEIGHT/2-125);
+    text("Score: " + points + "   Highscore: " + highscore[level],GAMEWIDTH/2,GAMEHEIGHT/2-125);
     textSize(50);
     
     if (gamestate=== "win"){
-        text("Sing joyfully!",GAMEWIDTH/2,GAMEHEIGHT/2+50);
-        textSize(60);
-        fill(255, 204, 0);
-        text("S",GAMEWIDTH/2-90,GAMEHEIGHT/2-50)
-        if(!isTwoStar) {
-            textSize(40);
-            fill("black");
-        }
-        text("A",GAMEWIDTH/2-30,GAMEHEIGHT/2-50);
-        if(!isThreeStar) {
-            textSize(40);
-            fill("black");
-        }
-        text("T",GAMEWIDTH/2+30,GAMEHEIGHT/2-50);
-        if(!isFourStar) {
-            textSize(40);
-            fill("black");
-        }
-        text("B",GAMEWIDTH/2+90,GAMEHEIGHT/2-50);
-        
+        text("Sing joyfully!",GAMEWIDTH/2,GAMEHEIGHT/2+CRATEr);
+        image(isFourStar ? starB : starBgrey,GAMEWIDTH/2+65,GAMEHEIGHT/2-CRATEr,CRATEr,CRATEr);                
+        image(isThreeStar ? starT : starATgrey,GAMEWIDTH/2,GAMEHEIGHT/2-CRATEr-15,CRATEr,CRATEr);
+        image(isTwoStar ? starA : starATgrey,GAMEWIDTH/2-70,GAMEHEIGHT/2-CRATEr-15,CRATEr,CRATEr);
+        image(starS,GAMEWIDTH/2-135,GAMEHEIGHT/2-CRATEr,CRATEr,CRATEr);
     } else {
-        text("Lord in Thy Wrath",GAMEWIDTH/2,GAMEHEIGHT/2+50);
-        
+        text("Lord in Thy Wrath",GAMEWIDTH/2,GAMEHEIGHT/2+CRATEr);
     }
 
     

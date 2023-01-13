@@ -16,10 +16,10 @@ class Trunk extends BaseClass{
         this.oldspeed = this.body.speed;
         super.display();
     } else {
-        World.remove(world, this.body);
         if (this.points > 0){
-            points++;
-            this.points--;
+            World.remove(world, this.body);
+            points+= this.points;
+            this.points = 0;
         }
     }
   }

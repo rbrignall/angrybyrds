@@ -1,28 +1,28 @@
 const levelOne = {
     crates: [{
             x: citadelx-TRUNKLONGl+CRATEr/2,
-            y: groundcoord
+            y: groundcoord-CRATEr/2
         },
         {
             x: citadelx-CRATEr/2,
-            y: groundcoord
+            y: groundcoord-CRATEr/2
         },
         {
             x: citadelx-TRUNKLONGl+CRATEr/2,
-            y: groundcoord-CRATEr-TRUNKw-30
+            y: groundcoord-1.5*CRATEr-TRUNKw-30
         },
         {
             x: citadelx-CRATEr/2,
-            y: groundcoord-CRATEr-TRUNKw-30
+            y: groundcoord-1.5*CRATEr-TRUNKw-30
         },
         {
             x: citadelx-TRUNKLONGl/2,
-            y: groundcoord-2*CRATEr-4*TRUNKw
+            y: groundcoord-2.5*CRATEr-4*TRUNKw
         }
     ],
     trunks: [{
             x: citadelx-TRUNKLONGl/2,
-            y: groundcoord-CRATEr,
+            y: groundcoord-CRATEr-TRUNKw/2,
             length: TRUNKLONGl,
             angle: Math.PI/2 
         },
@@ -47,11 +47,11 @@ const levelOne = {
     ],
     pigs: [{
             x: citadelx-TRUNKLONGl/2,
-            y: groundcoord
+            y: groundcoord-PIGy/2
         },
         {
             x: citadelx-TRUNKLONGl/2,
-            y: groundcoord-CRATEr-TRUNKw-10
+            y: groundcoord-CRATEr-TRUNKw-PIGy/2
         },
     ],
     chances: 3,
@@ -61,6 +61,8 @@ const levelOne = {
 
 
 function setupLevel(level) {
+    rectMode(CENTER);
+
     // Ground and platform:
     solo = new Solo(GAMEWIDTH/2,GAMEHEIGHT-BASEHEIGHT/2,GAMEWIDTH,BASEHEIGHT);
     platform = new Solo(PLATFORMWIDTH/2, groundcoord-PLATFORMHEIGHT/2, PLATFORMWIDTH, PLATFORMHEIGHT);
@@ -77,25 +79,22 @@ function setupLevel(level) {
         pigs[i] = new Pig(level.pigs[i].x,level.pigs[i].y);
 
     // Birds
-    for (var i = 0; i < level.chances; i++) {
-        if (i < level.chances-1)
-            birds[i] = new Byrd(forkx*(i+1)/level.chances,platformcoord-BYRDr)
-        else {
-            birds[i] = new Byrd(forkx,platformcoord-FORKh-5);
-            birds[i].status = "loaded";
-        }
-    }
+    birds[level.chances-1] = new Byrd(forkx,platformcoord-FORKh-5);
+    birds[level.chances-1].status = "loaded";
+    for (var i = 0; i < level.chances - 1; i++) 
+        birds[i] = new Byrd(forkx*(i+1)/level.chances,platformcoord-BYRDr)
+
     // Sling
     sling = new Sling(birds[level.chances-1].body,{x:forkx, y:platformcoord-FORKh});
     chances = level.chances;
     currentbird = level.chances-1; // Yes, we need this stored separately!
     starscore = level.starscore;
     points = 0;
+    displaypoints = 0;
     gamestate = "playing";
     isTwoStar = false;
     isThreeStar = false;
     isFourStar = false;
-//var highscore = localStorage.getItem("highscore") || 0;
     showGameOver = false;
     slingTaught = false;
 

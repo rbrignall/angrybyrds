@@ -3,6 +3,7 @@ class Pig extends BaseClass {
     super(x,y,PIGx,PIGy);
     this.image = loadImage("sprites/enemyhat.png");
     this.points = 200;
+    this.tint = 255;
     this.status = "alive";
     this.oldspeed = this.body.speed;
   }
@@ -18,12 +19,15 @@ class Pig extends BaseClass {
     } else {
         World.remove(world, this.body);
         this.status = "dead";
-        push();
         if (this.points > 0) {
-            points+=5;
-            this.points-=5;
+            points += this.points;
+            this.points = 0;
         }
-        tint(255, this.points * 255 / 200);
+        push();
+        if (this.tint > 0) {
+            this.tint-=5;
+        }
+        tint(255, this.tint);
         imageMode(CENTER)
         image(this.image, this.body.position.x, this.body.position.y,PIGx,PIGy);
         pop();

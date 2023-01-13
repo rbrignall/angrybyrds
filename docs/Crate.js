@@ -12,10 +12,10 @@ class Crate extends BaseClass {
         super.display();
         this.oldspeed = this.body.speed;
     } else {
-        World.remove(world, this.body);
         if (this.points > 0){
-            points++;
-            this.points--;
+            World.remove(world, this.body);
+            points+= this.points;
+            this.points = 0;
         }
     }
   }

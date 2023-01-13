@@ -1,6 +1,6 @@
 
-const GAMEWIDTH = Math.min(1200, window.innerWidth,window.innerHeight * 12 / 5);
-const GAMEHEIGHT = Math.min(500, window.innerHeight,window.innerWidth * 5 /12);
+const GAMEWIDTH = Math.min(1200, window.innerWidth,window.innerHeight * 12 / 6);
+const GAMEHEIGHT = Math.min(600, window.innerHeight,window.innerWidth * 6 /12);
 const PLATFORMHEIGHT = GAMEHEIGHT / 4;
 const PLATFORMWIDTH = GAMEWIDTH / 4;
 const BASEHEIGHT = 30;
