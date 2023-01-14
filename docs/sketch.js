@@ -81,6 +81,7 @@ function setup(){
     nextbtn = createImg("assets/next.png");
     nextbtn.position(GAMEWIDTH/2+CRATEr,GAMEHEIGHT-2*CRATEr);
     nextbtn.size(CRATEr,CRATEr);
+    nextbtn.mouseClicked(()=>{loadNextGame()});
     nextbtn.hide();
 
     aboutbtn = createImg("assets/about.png");
@@ -109,6 +110,11 @@ function reloadLevel() {
     refreshbtn.position(20,12);
     refreshbtn.size(35,35);
     nextbtn.hide();
+}
+
+function loadNextGame() {
+    level++;
+    reloadLevel();
 }
 
 function loadMenu() {
@@ -148,7 +154,7 @@ function draw(){
         textSize(30);
         textAlign(CENTER);
         text("Angry Byrds", GAMEWIDTH/2, 30);
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < LEVELS; i++) {
             if (levelunlocked[i]) {
                 fill(161,223,80);
                 rect(GAMEWIDTH*(i+1)/4-75,50,150,150,20);
@@ -205,7 +211,7 @@ function drawgame(){
         trunks[i].display();
     for (i = 0; i < pigs.length; i++)
         pigs[i].display();
-    for (i=0; i < CHANCES; i++)
+    for (i=0; i < birds.length; i++)
         birds[i].display(); 
 
     sling.display();  
@@ -214,14 +220,14 @@ function drawgame(){
         if(gamestate != "win") {
             points += chances * 100;
             gamestate = "win";
-            if (level < 2)
+            if (level < LEVELS-1)
                 levelunlocked[level+1] = true;
             localStorage.setItem("levelunlocked",JSON.stringify(levelunlocked));
             delay(3000).then(() => {clearLevel(); showGameOver=true});
         }
     } else if (chances<=0 && gamestate === "pending") {               
         gamestate = "lose";
-        delay(1000).then(() => {clearLevel(); showGameOver=true});
+        delay(3000).then(() => {clearLevel(); showGameOver=true});
     }
     if (showGameOver) {
         gameOverModal();
@@ -234,14 +240,8 @@ function drawgame(){
         slingTaught = true;
     }
 }
-/*
-function mousePressed() {
-  if (song.isPlaying()) {
-  } else {
-    song.play();
-  }
-}
-*/
+
+
 function mouseClicked(){
     if (curScreen === "menu") {
  /*       if (song.isPlaying()) {
@@ -250,12 +250,26 @@ function mouseClicked(){
         }*/
         if (Math.abs(mouseY-125) <= 75) {
             if (Math.abs(mouseX-GAMEWIDTH/4) <= 75) {
+                level = 0;
                 setupLevel(levelOne);
                 refreshbtn.show();
                 menubtn.show();
                 curScreen = "game";
             }
-            // TODO: levels 2 and 3
+            if (Math.abs(mouseX-2*GAMEWIDTH/4) <= 75) {
+                level = 1;
+                setupLevel(levelTwo);
+                refreshbtn.show();
+                menubtn.show();
+                curScreen = "game";
+            }
+            if (Math.abs(mouseX-3*GAMEWIDTH/4) <= 75) {
+                level = 2;
+                setupLevel(levelThree);
+                refreshbtn.show();
+                menubtn.show();
+                curScreen = "game";
+            }
         }
     }
     
@@ -273,7 +287,7 @@ function mouseReleased(){
                 // Load next bird after 2 second delay
                 currentbird--;
                 if(chances>0) {
-                    Body.setPosition(birds[currentbird].body, {x: forkx, y: platformcoord-FORKh-5});
+                    Body.setPosition(birds[currentbird].body, {x: forkx, y: platformcoord-FORKh});
                     Body.setAngle(birds[currentbird].body,0);
                     sling.bodyA = birds[currentbird].body;
                     sling.mount();
@@ -307,13 +321,13 @@ function triggerStars(){
             localStorage.setItem("stars",JSON.stringify(stars));
         }
     }
-    if(points > starscore[0])
+    if(points > starscore[0] && !isTwoStar)
         delay(750).then(() => {
             isTwoStar = true;
-            if(points > starscore[1])
+            if(points > starscore[1] && !isThreeStar)
                 delay(750).then(() => {
                     isThreeStar = true;
-                    if(points > starscore[2])
+                    if(points > starscore[2] && !isFourStar)
                         delay(750).then(() => {
                             isFourStar = true;
 

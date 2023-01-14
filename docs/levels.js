@@ -24,25 +24,25 @@ const levelOne = {
             x: citadelx-TRUNKLONGl/2,
             y: groundcoord-CRATEr-TRUNKw/2,
             length: TRUNKLONGl,
-            angle: Math.PI/2 
+            angle: 0 
         },
         {
             x: citadelx-TRUNKLONGl/2,
             y: groundcoord-2*CRATEr-3*TRUNKw,
             length: TRUNKLONGl,
-            angle: Math.PI/2 
+            angle: 0 
         },
         {
             x: citadelx-3*TRUNKLONGl/4,
             y: groundcoord-2*CRATEr-5*TRUNKw,
             length: TRUNKLONGl/2,
-            angle: Math.PI/7 
+            angle: -2*Math.PI/7 
         },
         {
             x: citadelx-TRUNKLONGl/4,
             y: groundcoord-2*CRATEr-5*TRUNKw,
             length: TRUNKLONGl/2,
-            angle: -Math.PI/7
+            angle: 2*Math.PI/7
         }
     ],
     pigs: [{
@@ -58,7 +58,191 @@ const levelOne = {
     starscore: [430,520,600],
 }
 
+const levelTwo = {
+    crates: [{
+            x: citadelx-1.2*TRUNKLONGl,
+            y: groundcoord-CRATEr/2
+        },
+        {
+            x: citadelx-1.2*TRUNKLONGl-CRATEr-TRUNKw,
+            y: groundcoord-CRATEr/2
+        },
+        {
+            x: citadelx-1.2*TRUNKLONGl-2*CRATEr-2*TRUNKw,
+            y: groundcoord-CRATEr/2
+        },
+        {
+            x: citadelx+CRATEr,
+            y: groundcoord-CRATEr/2
+        },
+        {
+            x: citadelx-TRUNKw,
+            y: groundcoord-CRATEr/2
+        },
+        {
+            x: citadelx-CRATEr-2*TRUNKw,
+            y: groundcoord-CRATEr/2
+        },
+    ],
+    trunks: [{
+            x: citadelx-1.2*TRUNKLONGl-CRATEr-TRUNKw,
+            y: groundcoord-CRATEr-TRUNKw/2,
+            length: TRUNKLONGl,
+            angle: 0,
+            choir: "can",
+        },
+        {
+            x: citadelx-TRUNKw,
+            y: groundcoord-CRATEr-TRUNKw/2,
+            length: TRUNKLONGl,
+            angle: 0,
+            choir: "dec",
+        },
+    ],
+    pigs: [{
+            x: citadelx-1.2*TRUNKLONGl,
+            y: groundcoord-CRATEr-TRUNKw-PIGy/2
+        },
+        {
+            x: citadelx-1.2*TRUNKLONGl-CRATEr-TRUNKw,
+            y: groundcoord-CRATEr-TRUNKw-PIGy/2
+        },
+        {
+            x: citadelx-1.2*TRUNKLONGl-2*CRATEr-2*TRUNKw,
+            y: groundcoord-CRATEr-TRUNKw-PIGy/2
+        },
+        {
+            x: citadelx+CRATEr,
+            y: groundcoord-CRATEr-TRUNKw-PIGy/2
+        },
+        {
+            x: citadelx-TRUNKw,
+            y: groundcoord-CRATEr-TRUNKw-PIGy/2
+        },
+        {
+            x: citadelx-CRATEr-2*TRUNKw,
+            y: groundcoord-CRATEr-TRUNKw-PIGy/2
+        },
+/*       {
+            x: citadelx-0.8*TRUNKLONGl,
+            y: groundcoord-PIGy/2
+        },*/
+    ],
+    chances: 3,
+    starscore: [1210,1290,1360],
+}
 
+const levelThree = {
+    crates: [{
+            x: citadelx-1.5*TRUNKLONGl-CRATEr/2,
+            y: groundcoord-2.5*CRATEr-2*TRUNKw   
+        },
+        {
+            x: citadelx-1.5*TRUNKLONGl,
+            y: groundcoord-CRATEr/2
+        },
+        {
+            x: citadelx-1.5*TRUNKLONGl+CRATEr,
+            y: groundcoord-3.5*CRATEr-3*TRUNKw
+        },
+        {
+            x: citadelx-1.5*TRUNKLONGl+3*CRATEr/2,
+            y: groundcoord-1.5*CRATEr-TRUNKw
+        }
+    ],
+    trunks: [{
+            x: citadelx-TRUNKLONGl/2-CRATEr,
+            y: groundcoord-CRATEr-TRUNKw/2,
+            length: 2*TRUNKLONGl,
+            angle: 0 
+        },
+        {
+            x: citadelx-TRUNKLONGl/2-CRATEr,
+            y: groundcoord-2*CRATEr-1.5*TRUNKw,
+            length: 2*TRUNKLONGl,
+            angle: 0 
+        },
+        {
+            x: citadelx-TRUNKLONGl/2-CRATEr,
+            y: groundcoord-3*CRATEr-2.5*TRUNKw,
+            length: 2*TRUNKLONGl,
+            angle: 0 
+        },
+        {
+            x: citadelx-TRUNKLONGl/2-CRATEr,
+            y: groundcoord-4*CRATEr-3.5*TRUNKw,
+            length: 2*TRUNKLONGl,
+            angle: 0 
+        },
+        {
+            x: citadelx+TRUNKLONGl/2-CRATEr-TRUNKw/2-5,
+            y: groundcoord-CRATEr/2,
+            length: CRATEr,
+            angle: Math.PI/2 
+        },
+        {
+            x: citadelx+TRUNKLONGl/2-CRATEr-TRUNKw/2-5,
+            y: groundcoord-3*CRATEr/2-TRUNKw,
+            length: CRATEr,
+            angle: Math.PI/2 
+        },
+        {
+            x: citadelx+TRUNKLONGl/2-CRATEr-TRUNKw/2-5,
+            y: groundcoord-5*CRATEr/2-2*TRUNKw,
+            length: CRATEr,
+            angle: Math.PI/2 
+        },
+        {
+            x: citadelx+TRUNKLONGl/2-CRATEr-TRUNKw/2-5,
+            y: groundcoord-7*CRATEr/2-3*TRUNKw,
+            length: CRATEr,
+            angle: Math.PI/2 
+        },
+        {
+            x: citadelx-TRUNKLONGl/2-TRUNKw/2,
+            y: groundcoord-CRATEr/2,
+            length: CRATEr,
+            angle: Math.PI/2 
+        },
+        {
+            x: citadelx-TRUNKLONGl/2-TRUNKw/2,
+            y: groundcoord-3*CRATEr/2-TRUNKw,
+            length: CRATEr,
+            angle: Math.PI/2 
+        },
+        {
+            x: citadelx-TRUNKLONGl/2-TRUNKw/2,
+            y: groundcoord-5*CRATEr/2-2*TRUNKw,
+            length: CRATEr,
+            angle: Math.PI/2 
+        },
+        {
+            x: citadelx-TRUNKLONGl/2-TRUNKw/2,
+            y: groundcoord-7*CRATEr/2-3*TRUNKw,
+            length: CRATEr,
+            angle: Math.PI/2 
+        },
+    ],
+    pigs: [{
+            x: citadelx-TRUNKLONGl/4,
+            y: groundcoord-CRATEr-TRUNKw-PIGy/2
+        },
+        {
+            x: citadelx-3*TRUNKLONGl/4,
+            y: groundcoord-2*CRATEr-2*TRUNKw-PIGy/2
+        },
+        {
+            x: citadelx-TRUNKLONGl/4,
+            y: groundcoord-3*CRATEr-3*TRUNKw-PIGy/2
+        },
+        {
+            x: citadelx-3*TRUNKLONGl/4,
+            y: groundcoord-4*CRATEr-4*TRUNKw-PIGy/2
+        },
+    ],
+    chances: 3,
+    starscore: [870,970,1100],
+}
 
 function setupLevel(level) {
     rectMode(CENTER);
@@ -71,9 +255,14 @@ function setupLevel(level) {
     for (var i = 0; i < level.crates.length; i++) 
         crates[i] = new Crate(level.crates[i].x,level.crates[i].y,CRATEr,CRATEr);
 
-    for (var i = 0; i < level.trunks.length; i++) 
-        trunks[i] = new Trunk(level.trunks[i].x,level.trunks[i].y,level.trunks[i].length,level.trunks[i].angle);
+    for (var i = 0; i < level.trunks.length; i++) {
+        if ('choir' in level.trunks[i])
+            trunks[i] = new Trunk(level.trunks[i].x,level.trunks[i].y,level.trunks[i].length,level.trunks[i].angle,level.trunks[i].choir);
+        else
+            trunks[i] = new Trunk(level.trunks[i].x,level.trunks[i].y,level.trunks[i].length,level.trunks[i].angle);
+    }
 
+    
     // Pigs
     for (var i = 0; i < level.pigs.length; i++) 
         pigs[i] = new Pig(level.pigs[i].x,level.pigs[i].y);

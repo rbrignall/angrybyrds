@@ -1,8 +1,13 @@
 class Trunk extends BaseClass{
-  constructor(x,y,height,angle){
-    super(x,y,TRUNKw,height,angle);
+  constructor(x,y,height,angle,choir = ""){
+    super(x,y,height,TRUNKw,angle);
     this.body.friction = 2;
-    this.image = loadImage("sprites/wood2.png");
+    if (choir==="can")
+        this.image = loadImage("sprites/woodcan.png");
+    else if (choir==="dec")
+        this.image = loadImage("sprites/wooddec.png");
+    else
+        this.image = loadImage("sprites/wood2.png");
     Matter.Body.setAngle(this.body, angle);
     this.points = 25;
     this.oldspeed = 0;

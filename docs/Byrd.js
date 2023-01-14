@@ -18,7 +18,7 @@ class Byrd extends BaseCircleClass {
       image(this.smokeImg, this.trajectory[i][0], this.trajectory[i][1]);
     }
     if (this.status === "released" && this.body.velocity.x === 0 && this.body.speed < 0.3) 
-        setTimeout( () => {this.status="done";},2000);
+        delay(2000).then( () => {this.status="done";});
     if (this.status === "done")
         World.remove(world, this.body);
     else
