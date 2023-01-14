@@ -272,7 +272,7 @@ function mouseClicked(){
             }
         }
     }
-    
+    return false;
 }        
 
 function mouseReleased(){
