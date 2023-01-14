@@ -241,64 +241,8 @@ function drawgame(){
     }
 }
 
-/*
-function mouseClicked(){
-    if (curScreen === "menu") {
- //       if (song.isPlaying()) {
-//        } else {
-//            song.play();
-//        }
-        if (Math.abs(mouseY-125) <= 75) {
-            if (Math.abs(mouseX-GAMEWIDTH/4) <= 75) {
-                level = 0;
-                setupLevel(levelOne);
-                refreshbtn.show();
-                menubtn.show();
-                curScreen = "game";
-            }
-            if (Math.abs(mouseX-2*GAMEWIDTH/4) <= 75) {
-                level = 1;
-                setupLevel(levelTwo);
-                refreshbtn.show();
-                menubtn.show();
-                curScreen = "game";
-            }
-            if (Math.abs(mouseX-3*GAMEWIDTH/4) <= 75) {
-                level = 2;
-                setupLevel(levelThree);
-                refreshbtn.show();
-                menubtn.show();
-                curScreen = "game";
-            }
-        }
-    }
-    return false;
-}      */  
 
-function mouseReleased(){
-    if (curScreen === "game") {
-        // FIRE!
-        if ( chances>0 && birds[currentbird].status === "loaded" && slingTaught){
-            sling.fire();
-            slingTaught = false;
-            birds[currentbird].status = "released";
-            chances--;
-            delay(2000).then(() => {
-                // Load next bird after 2 second delay
-                currentbird--;
-                if(chances>0) {
-                    Body.setPosition(birds[currentbird].body, {x: forkx, y: platformcoord-FORKh});
-                    Body.setAngle(birds[currentbird].body,0);
-                    sling.bodyA = birds[currentbird].body;
-                    sling.mount();
-                    birds[currentbird+1].trajectory = [];
-                    birds[currentbird].status = "loaded";
-                } else {
-                    gamestate = "pending";
-                }
-            });
-        }
-    }
+function mouseClicked(){
     if (curScreen === "menu") {
  /*       if (song.isPlaying()) {
         } else {
@@ -328,7 +272,33 @@ function mouseReleased(){
             }
         }
     }
-    return false;
+    //return false;
+}        
+
+function mouseReleased(){
+    if (curScreen === "game") {
+        // FIRE!
+        if ( chances>0 && birds[currentbird].status === "loaded" && slingTaught){
+            sling.fire();
+            slingTaught = false;
+            birds[currentbird].status = "released";
+            chances--;
+            delay(2000).then(() => {
+                // Load next bird after 2 second delay
+                currentbird--;
+                if(chances>0) {
+                    Body.setPosition(birds[currentbird].body, {x: forkx, y: platformcoord-FORKh});
+                    Body.setAngle(birds[currentbird].body,0);
+                    sling.bodyA = birds[currentbird].body;
+                    sling.mount();
+                    birds[currentbird+1].trajectory = [];
+                    birds[currentbird].status = "loaded";
+                } else {
+                    gamestate = "pending";
+                }
+            });
+        }
+    }
 }
 /*
 function keyPressed(){
