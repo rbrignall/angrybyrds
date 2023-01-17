@@ -1,12 +1,13 @@
-
-const GAMEWIDTH = Math.min(1200, window.innerWidth,window.innerHeight * 12 / 6);
-const GAMEHEIGHT = Math.min(600, window.innerHeight,window.innerWidth * 6 /12);
+const SCRNWIDTH = Math.max(window.screen.width,window.screen.height);
+const SCRNHEIGHT = Math.min(window.screen.width,window.screen.height)
+const GAMEWIDTH = Math.min(SCRNWIDTH,SCRNHEIGHT * 12 / 6)*.95;
+const GAMEHEIGHT = Math.min(SCRNHEIGHT,SCRNWIDTH * 6 /12)*.95;
+const BTNSIZE = GAMEHEIGHT/10;
 const PLATFORMHEIGHT = GAMEHEIGHT / 4;
 const PLATFORMWIDTH = GAMEWIDTH / 4;
 const BASEHEIGHT = 30;
 const groundcoord = GAMEHEIGHT-BASEHEIGHT;
 const platformcoord = groundcoord-PLATFORMHEIGHT;
-const citadelx = GAMEWIDTH - 100; 
 const forkx = PLATFORMWIDTH*3/4;
 const BYRDr = GAMEHEIGHT / 10;
 const PIGr = GAMEHEIGHT * 3 / 25;
@@ -19,6 +20,7 @@ const FORKh = GAMEHEIGHT/2.5;
 const FORKw = FORKh * 3 / 25;
 const SMALLFORKh = FORKh*3/5;
 const SMALLFORKw = FORKw/2;
+const citadelx = GAMEWIDTH - TRUNKLONGl/2; 
 const LEVELS = 3;
 // "Death" speeds:
 const PIGDIESPEED = GAMEHEIGHT * 3 / 500;

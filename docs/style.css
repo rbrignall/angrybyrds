@@ -1,8 +1,56 @@
 html, body {
-  margin: 0;
-  padding: 0;
+  height: 100%;
+    width: 100%;
 }
 
+html {
+    position: fixed;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+background: url("assets/bggloria.png") center/100% repeat-y;
+  
+}
+
+.clicktoplay {
+    font-family: 'Press Start 2P', cursive;
+  justify-content: center;
+  align-items: center;
+}
+
+.run {
+    font-size: 48px;
+    color: limegreen;
+    cursor: pointer;
+    margin: 8px auto;
+}
+
+.runningtitle {
+     font-family: 'Press Start 2P', cursive;
+    font-size: 32px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    top: 10px;
+}
+
+.run:hover {
+    color: red;
+}
+h1 {
+    font-size: 128px;
+    margin: 8px auto;
+}
+
+canvas {
+    display: none;
+    border: 0px;
+}
 canvas:active{
   cursor: grabbing; /*url("sprites/cursor-drag.png"),auto;*/
 }

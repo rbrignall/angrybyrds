@@ -34,11 +34,12 @@ menu        General menu to select levels
 credits     Credits modal
 game        Playing game
 -------------------------*/
-
+var elem = document.documentElement;
 function preload() {
     getBackgroundImg();
     fundoImg = loadImage("sprites/bg.png");
     padlockImg = loadImage("assets/padlock.png");
+    gloriaImg = loadImage("assets/bggloria.png")
     
     starSgrey = loadImage("assets/Sstargrey.png");
     starATgrey = loadImage("assets/ATstargrey.png");
@@ -51,43 +52,104 @@ function preload() {
     song = loadSound('assets/Gloria.mp3');
 }
 
+
+
+function clicktoplay() {
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { 
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { 
+        elem.msRequestFullscreen();
+    }
+    document.getElementById("clicktoplay").style.display = 'none';
+    document.getElementById("gamecanvas").style.display = 'block';
+    var soundon = localStorage.getItem("sound") ?? "on";
+    if(soundon === "on")
+        toggleSong();
+    else
+        soundoffbtn.show();
+    closebtn.show();
+}
+
+function closeGame() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
+    }
+    loadMenu();
+    document.getElementById("clicktoplay").style.display = 'block';
+    document.getElementById("gamecanvas").style.display = 'none';
+    if (song.isPlaying())
+        song.stop();
+    closebtn.hide();
+    menubtn.hide();
+    refreshbtn.hide();
+    nextbtn.hide();
+    soundbtn.hide();
+    soundoffbtn.hide();
+}
+
 function setup(){
+    /*if (window.innerHeight > window.innerWidth) {
+        refreshbtn = createImg("sprites/menu_refresh.png");
+        refreshbtn.position(20,12);
+        refreshbtn.size(35,35);
+        refreshbtn.mouseClicked(()=>{openFullscreen()});//location.reload()});
+        
+        
+    } else*/
+    pixelDensity(1);
     var canvas = createCanvas(GAMEWIDTH,GAMEHEIGHT);
+    canvas.id('gamecanvas');
     engine = Engine.create();
     world = engine.world;
-
+    
     refreshbtn = createImg("sprites/menu_refresh.png");
-    refreshbtn.position(20,12);
-    refreshbtn.size(35,35);
+    refreshbtn.position(BTNSIZE,BTNSIZE/2);
+    refreshbtn.size(BTNSIZE,BTNSIZE);
     refreshbtn.mouseClicked(()=>{reloadLevel()});//location.reload()});
     refreshbtn.hide(); // Hide until we need it
     
     menubtn = createImg("assets/menu.png");
-    menubtn.position(60,12);
-    menubtn.size(35,35);
+    menubtn.position(2*BTNSIZE,BTNSIZE/2);
+    menubtn.size(BTNSIZE,BTNSIZE);
     menubtn.mouseClicked(()=>{loadMenu()});
     menubtn.hide();
 
     soundbtn = createImg("assets/sound.png");
-    soundbtn.position(GAMEWIDTH-55,12);
-    soundbtn.size(35,35);
+    soundbtn.position(SCRNWIDTH-3*BTNSIZE,BTNSIZE/2);
+    soundbtn.size(BTNSIZE,BTNSIZE);
     soundbtn.mouseClicked(()=>{toggleSong()});
     soundoffbtn = createImg("assets/soundoff.png");
-    soundoffbtn.position(GAMEWIDTH-55,12);
-    soundoffbtn.size(35,35);
+    soundoffbtn.position(SCRNWIDTH-3*BTNSIZE,BTNSIZE/2);
+    soundoffbtn.size(BTNSIZE,BTNSIZE);
     soundoffbtn.mouseClicked(()=>{toggleSong()});
     soundbtn.hide();
+    soundoffbtn.hide();
+    
+    closebtn = createImg("assets/close.png");
+    closebtn.position(SCRNWIDTH-2*BTNSIZE,BTNSIZE/2);
+    closebtn.size(BTNSIZE,BTNSIZE);
+    closebtn.mouseClicked(()=>{closeGame()});
+    closebtn.hide();
 
     nextbtn = createImg("assets/next.png");
-    nextbtn.position(GAMEWIDTH/2+CRATEr,GAMEHEIGHT-2*CRATEr);
-    nextbtn.size(CRATEr,CRATEr);
+    nextbtn.position(SCRNWIDTH/2+BTNSIZE,SCRNHEIGHT-2*BTNSIZE);
+    nextbtn.size(2*BTNSIZE,2*BTNSIZE);
     nextbtn.mouseClicked(()=>{loadNextGame()});
     nextbtn.hide();
 
     aboutbtn = createImg("assets/about.png");
     aboutbtn.hide();
-
+    
 }
+
+
+
 
 function reset(){
     crates = [];
@@ -104,11 +166,11 @@ function reloadLevel() {
     else if (level === 1)
         setupLevel(levelTwo);
     else if (level === 2)
-        setupLevel(levelThree);
-    menubtn.position(60,12);
-    menubtn.size(35,35);
-    refreshbtn.position(20,12);
-    refreshbtn.size(35,35);
+        setupLevel(levelThree);    
+    menubtn.position(2*BTNSIZE,BTNSIZE/2);
+    menubtn.size(BTNSIZE,BTNSIZE);
+    refreshbtn.position(BTNSIZE,BTNSIZE/2);
+    refreshbtn.size(BTNSIZE,BTNSIZE);
     nextbtn.hide();
 }
 
@@ -120,11 +182,11 @@ function loadNextGame() {
 function loadMenu() {
     rectMode(CORNER);
     clearLevel();
-    reset();
-    menubtn.position(60,12);
-    menubtn.size(35,35);
-    refreshbtn.position(20,12);
-    refreshbtn.size(35,35);
+    reset();    
+    menubtn.position(2*BTNSIZE,BTNSIZE/2);
+    menubtn.size(BTNSIZE,BTNSIZE);
+    refreshbtn.position(BTNSIZE,BTNSIZE/2);
+    refreshbtn.size(BTNSIZE,BTNSIZE);
     menubtn.hide();
     refreshbtn.hide();
     nextbtn.hide();
@@ -133,10 +195,12 @@ function loadMenu() {
 
 function toggleSong() {
     if (song.isPlaying()) {
+        localStorage.setItem("sound","off");
         song.stop();
         soundbtn.hide();
         soundoffbtn.show();
     } else {
+        localStorage.setItem("sound","on");
         song.play();
         soundoffbtn.hide();
         soundbtn.show();
@@ -144,16 +208,15 @@ function toggleSong() {
 }
 
 function draw(){
+
     if (curScreen === "game")
         drawgame();
     else if (curScreen === "menu") {
-        
-        push();
-        fill(255);
-        rect(0,0,GAMEWIDTH,GAMEHEIGHT);
+
+        background(gloriaImg);
+        textFont('Verdana');
         textSize(30);
         textAlign(CENTER);
-        text("Angry Byrds", GAMEWIDTH/2, 30);
         for (var i = 0; i < LEVELS; i++) {
             if (levelunlocked[i]) {
                 fill(161,223,80);
@@ -180,7 +243,7 @@ function draw(){
                 text("Highscore: "+highscore[i], GAMEWIDTH*(i+1)/4, 175);
             }
         }
-        pop();
+        
     }
 }
 
@@ -196,10 +259,12 @@ function drawgame(){
     fill("white");
     if(displaypoints < points)
         displaypoints += 5;//Math.min(10,points-displaypoints);
-    text("Score: "+displaypoints, width-210, 40);
-    text(chances, 130, 40);
-    image(birds[0].image,100,13,30,30);
-
+    textAlign(RIGHT);
+    text("Score: "+displaypoints, GAMEWIDTH-2*BTNSIZE, 40);
+    textAlign(LEFT);
+    text(chances, 4*BTNSIZE, 40);
+    image(birds[0].image,3*BTNSIZE,13,30,30);
+    textAlign(CENTER);
     Engine.update(engine);
     
     solo.display();
@@ -241,39 +306,7 @@ function drawgame(){
     }
 }
 
-
-function mouseClicked(){
-    if (curScreen === "menu") {
- /*       if (song.isPlaying()) {
-        } else {
-            song.play();
-        }*/
-        if (Math.abs(mouseY-125) <= 75) {
-            if (Math.abs(mouseX-GAMEWIDTH/4) <= 75) {
-                level = 0;
-                setupLevel(levelOne);
-                refreshbtn.show();
-                menubtn.show();
-                curScreen = "game";
-            }
-            if (Math.abs(mouseX-2*GAMEWIDTH/4) <= 75) {
-                level = 1;
-                setupLevel(levelTwo);
-                refreshbtn.show();
-                menubtn.show();
-                curScreen = "game";
-            }
-            if (Math.abs(mouseX-3*GAMEWIDTH/4) <= 75) {
-                level = 2;
-                setupLevel(levelThree);
-                refreshbtn.show();
-                menubtn.show();
-                curScreen = "game";
-            }
-        }
-    }
-    //return false;
-}        
+        
 
 function mouseReleased(){
     if (curScreen === "game") {
@@ -298,19 +331,33 @@ function mouseReleased(){
                 }
             });
         }
+    } else if (curScreen === "menu") {
+        if (Math.abs(mouseY-125) <= 75) {
+            if (Math.abs(mouseX-GAMEWIDTH/4) <= 75) {
+                level = 0;
+                setupLevel(levelOne);
+                refreshbtn.show();
+                menubtn.show();
+                curScreen = "game";
+            }
+            if (Math.abs(mouseX-2*GAMEWIDTH/4) <= 75) {
+                level = 1;
+                setupLevel(levelTwo);
+                refreshbtn.show();
+                menubtn.show();
+                curScreen = "game";
+            }
+            if (Math.abs(mouseX-3*GAMEWIDTH/4) <= 75) {
+                level = 2;
+                setupLevel(levelThree);
+                refreshbtn.show();
+                menubtn.show();
+                curScreen = "game";
+            }
+        }
     }
 }
-/*
-function keyPressed(){
-    if(keyCode === 32 && chances > 0){
-        sling.mount();
-        birds[currentbird].status = "loaded";
-        Body.setPosition(birds[currentbird].body, {x: 200, y: 50});
-        Body.setAngle(birds[currentbird].body,0);
-        birds[currentbird].trajectory = [];
-    }
-}
-*/
+
 
 function triggerStars(){
     if (points > highscore[level]) {
