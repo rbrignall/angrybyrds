@@ -28,6 +28,7 @@ var stars = JSON.parse(localStorage.getItem("stars") || "[0,0,0]");
 var levelunlocked = JSON.parse(localStorage.getItem("levelunlocked") || "[true,false,false]");
 console.log(highscore);
 var showGameOver = false;
+var showAbout = false;
 var curScreen = "menu";
 /* Options for curScreen:
 menu        General menu to select levels
@@ -48,7 +49,7 @@ function preload() {
     starA = loadImage("assets/Astar.png");
     starT = loadImage("assets/Tstar.png");
     starB = loadImage("assets/Bstar.png");
-    
+//    coffee = loadImage("https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png");
     song = loadSound('assets/Gloria.mp3');
 }
 
@@ -92,6 +93,7 @@ function closeGame() {
     menubtn.hide();
     refreshbtn.hide();
     nextbtn.hide();
+    coffeebtn.hide();
     soundbtn.hide();
     soundoffbtn.hide();
     aboutbtn.hide();
@@ -103,6 +105,7 @@ function setup(){
     canvas.id('gamecanvas');
     engine = Engine.create();
     world = engine.world;
+    document.getElementById("run").style.display = "block";
     
     refreshbtn = createImg(REFRESHSVG);
     refreshbtn.position(BTNSIZE,BTNSIZE/2);
@@ -145,6 +148,11 @@ function setup(){
     aboutbtn.mouseClicked(()=>{toggleAbout()});
     aboutbtn.hide();
     
+    coffeebtn = createImg(COFFEESVG);
+    coffeebtn.position(SCRNWIDTH/2+BTNSIZE,SCRNHEIGHT-2*BTNSIZE);
+    coffeebtn.size(2*BTNSIZE,2*BTNSIZE);
+    coffeebtn.mouseClicked(()=>{window.open('https://www.buymeacoffee.com/rbrignall', '_blank').focus()});
+    coffeebtn.hide();
 }
 
 
@@ -171,6 +179,7 @@ function reloadLevel() {
     refreshbtn.position(BTNSIZE,BTNSIZE/2);
     refreshbtn.size(BTNSIZE,BTNSIZE);
     nextbtn.hide();
+    coffeebtn.hide();
 }
 
 function loadNextGame() {
@@ -190,6 +199,7 @@ function loadMenu() {
     menubtn.hide();
     refreshbtn.hide();
     nextbtn.hide();
+    coffeebtn.hide();
     aboutbtn.show();
     curScreen = "menu";
 }
@@ -209,10 +219,11 @@ function toggleSong() {
 }
 
 function toggleAbout() {
-    if(document.getElementById("about").style.display === "block")
+    if(showAbout) 
         document.getElementById("about").style.display = "none";
     else
         document.getElementById("about").style.display = "block";
+    showAbout = !showAbout;
 }
 
 function draw(){
@@ -337,7 +348,7 @@ function mouseReleased(){
                 }
             });
         }
-    } else if (curScreen === "menu") {
+    } else if (curScreen === "menu" && !showAbout) {
         if (Math.abs(mouseY-125) <= 75) {
             if (Math.abs(mouseX-GAMEWIDTH/4) <= 75) {
                 level = 0;

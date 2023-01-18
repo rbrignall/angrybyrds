@@ -22,12 +22,15 @@ background: url("assets/bggloria.png") center/100% repeat-y;
   align-items: center;
 }
 
-.run {
+.run,.loadingclass {
     font-family: 'Press Start 2P', cursive;    
     font-size: 48px;
     color: limegreen;
     cursor: pointer;
     margin: 8px auto;
+}
+#run {
+    display: none;
 }
 
 .runningtitle {
@@ -75,11 +78,11 @@ img, canvas{
     color: white;
     padding: 5% 15%;
     font-family: verdana, sans-serif;
-    font-size: 18px;
+    font-size: 14px;
 }
 .about h2 {
     font-family: 'Press Start 2P', cursive;    
-    font-size: 32px;
+    font-size: 24px;
 }
 .about a, .about a:visited, .about a:active {
     color: gold;

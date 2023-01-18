@@ -3,6 +3,23 @@
 <head>
     <title>Angry Byrds
 </title>
+    <meta name="viewport" content="user-scalable=yes" />
+    <meta name="description" content="A William Byrd-themed video game.">
+
+    <!-- FB Meta Tags -->
+    <meta property="og:url" content="https://angrybyrds.rbrignall.org.uk">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Angry Byrds">
+    <meta property="og:description" content="A William Byrd-themed video game.">
+    <meta property="og:image" content="https://angrybyrds.rbrignall.org.uk/assets/AngryByrds_OG_1200x630.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="angrybyrds.rbrignall.org.uk">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="manifest" href="/assets/site.webmanifest">
 <!--    <script src="p5.min.js"></script>
     <script src="p5.dom.min.js"></script>
     <script src="p5.sound.min.js"></script>
@@ -31,17 +48,22 @@
 </head>
 <body>
 <div class="runningtitle" id="runningtitle">Angry Byrds</div>
-<div class="clicktoplay" id="clicktoplay"><h1>Angry<br />Byrds</h1><div class="run" onclick="clicktoplay()">Click to play</div></div>
-<div class="about" id="about"><h2>About Angry Byrds</h2>
+<div class="clicktoplay" id="clicktoplay">
+    <h1>Angry<br />Byrds</h1>
+    <div id="p5_loading" class="loadingclass">Loading......</div>    
+    <div class="run" id="run" onclick="clicktoplay()">Click to play</div>
+</div>
+<div class="about" id="about">
     <p>The Puritan Pigs have infiltrated our houses, our choirs and have filled our music with parallel fifths. Stop them before it's too late!</p>
     <h2>How to play</h2>
     <p>Use your finger or mouse to pull back the sling. Release to fire Byrd. You score points depending on what you manage to destroy, and remember: points mean parts (in this case, SATB).</p>
+    <h2>About</h2>
     <p>This game was developed to mark the 400th anniversary of the death of Tudor composer William Byrd (c. 1540-1623). Visit <a href="https://www.byrdcentral.com/">Byrd Central</a> to find out more about the man, and about other events marking the anniversary.</p>
     <p>Angry Byrds is based on the popular game <a href="https://www.angrybirds.com/">Angry Birds</a>, and is just for fun.</p>
     <h2>Credits</h2>
     <p>Game idea: <a href="https://twitter.com/QuireMemes">QuireMemes</a>&nbsp;&nbsp;&nbsp;Created by: <a href="https://github.com/rbrignall">rbrignall</a></p>
-    <p>Angry Byrds is ad free and free to play, but if you enjoyed it, please <!--<a href="https://www.buymeacoffee.com/rbrignall">Buy Me A Coffee</a>!-->
-    <a href="https://www.buymeacoffee.com/rbrignall" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a></p>
+    <p>Angry Byrds is ad free and free to play, but if you enjoyed it, you can
+    <a href="https://www.buymeacoffee.com/rbrignall" target="_blank">Buy me a Coffee</a>.</p>
     <div class="run closebtn" onclick="toggleAbout()">Return to game</div>
 </div>
 <script src="sketch.js"></script>
