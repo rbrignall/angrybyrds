@@ -38,7 +38,7 @@ var elem = document.documentElement;
 function preload() {
     getBackgroundImg();
     fundoImg = loadImage("sprites/bg.png");
-    padlockImg = loadImage("assets/padlock.png");
+    padlockImg = loadImage(PADLOCKSVG);
     gloriaImg = loadImage("assets/bggloria.png")
     
     starSgrey = loadImage("assets/Sstargrey.png");
@@ -63,6 +63,7 @@ function clicktoplay() {
         elem.msRequestFullscreen();
     }
     document.getElementById("clicktoplay").style.display = 'none';
+    document.getElementById('runningtitle').style.display = 'block';
     document.getElementById("gamecanvas").style.display = 'block';
     var soundon = localStorage.getItem("sound") ?? "on";
     if(soundon === "on")
@@ -70,6 +71,7 @@ function clicktoplay() {
     else
         soundoffbtn.show();
     closebtn.show();
+    aboutbtn.show();
 }
 
 function closeGame() {
@@ -83,6 +85,7 @@ function closeGame() {
     loadMenu();
     document.getElementById("clicktoplay").style.display = 'block';
     document.getElementById("gamecanvas").style.display = 'none';
+    document.getElementById('runningtitle').style.display = 'none';
     if (song.isPlaying())
         song.stop();
     closebtn.hide();
@@ -91,59 +94,55 @@ function closeGame() {
     nextbtn.hide();
     soundbtn.hide();
     soundoffbtn.hide();
+    aboutbtn.hide();
 }
 
 function setup(){
-    /*if (window.innerHeight > window.innerWidth) {
-        refreshbtn = createImg("sprites/menu_refresh.png");
-        refreshbtn.position(20,12);
-        refreshbtn.size(35,35);
-        refreshbtn.mouseClicked(()=>{openFullscreen()});//location.reload()});
-        
-        
-    } else*/
     pixelDensity(1);
     var canvas = createCanvas(GAMEWIDTH,GAMEHEIGHT);
     canvas.id('gamecanvas');
     engine = Engine.create();
     world = engine.world;
     
-    refreshbtn = createImg("sprites/menu_refresh.png");
+    refreshbtn = createImg(REFRESHSVG);
     refreshbtn.position(BTNSIZE,BTNSIZE/2);
     refreshbtn.size(BTNSIZE,BTNSIZE);
     refreshbtn.mouseClicked(()=>{reloadLevel()});//location.reload()});
     refreshbtn.hide(); // Hide until we need it
     
-    menubtn = createImg("assets/menu.png");
+    menubtn = createImg(MENUSVG);
     menubtn.position(2*BTNSIZE,BTNSIZE/2);
     menubtn.size(BTNSIZE,BTNSIZE);
     menubtn.mouseClicked(()=>{loadMenu()});
     menubtn.hide();
 
-    soundbtn = createImg("assets/sound.png");
+    soundbtn = createImg(SOUNDONSVG);
     soundbtn.position(SCRNWIDTH-3*BTNSIZE,BTNSIZE/2);
     soundbtn.size(BTNSIZE,BTNSIZE);
     soundbtn.mouseClicked(()=>{toggleSong()});
-    soundoffbtn = createImg("assets/soundoff.png");
+    soundoffbtn = createImg(SOUNDOFFSVG);
     soundoffbtn.position(SCRNWIDTH-3*BTNSIZE,BTNSIZE/2);
     soundoffbtn.size(BTNSIZE,BTNSIZE);
     soundoffbtn.mouseClicked(()=>{toggleSong()});
     soundbtn.hide();
     soundoffbtn.hide();
     
-    closebtn = createImg("assets/close.png");
+    closebtn = createImg(CLOSESVG);
     closebtn.position(SCRNWIDTH-2*BTNSIZE,BTNSIZE/2);
     closebtn.size(BTNSIZE,BTNSIZE);
     closebtn.mouseClicked(()=>{closeGame()});
     closebtn.hide();
 
-    nextbtn = createImg("assets/next.png");
+    nextbtn = createImg(NEXTSVG);
     nextbtn.position(SCRNWIDTH/2+BTNSIZE,SCRNHEIGHT-2*BTNSIZE);
     nextbtn.size(2*BTNSIZE,2*BTNSIZE);
     nextbtn.mouseClicked(()=>{loadNextGame()});
     nextbtn.hide();
 
-    aboutbtn = createImg("assets/about.png");
+    aboutbtn = createImg(ABOUTSVG);
+    aboutbtn.position(BTNSIZE,BTNSIZE/2);
+    aboutbtn.size(BTNSIZE,BTNSIZE);
+    aboutbtn.mouseClicked(()=>{toggleAbout()});
     aboutbtn.hide();
     
 }
@@ -180,6 +179,7 @@ function loadNextGame() {
 }
 
 function loadMenu() {
+    document.getElementById('runningtitle').style.display = 'block';
     rectMode(CORNER);
     clearLevel();
     reset();    
@@ -190,6 +190,7 @@ function loadMenu() {
     menubtn.hide();
     refreshbtn.hide();
     nextbtn.hide();
+    aboutbtn.show();
     curScreen = "menu";
 }
 
@@ -207,12 +208,18 @@ function toggleSong() {
     }
 }
 
+function toggleAbout() {
+    if(document.getElementById("about").style.display === "block")
+        document.getElementById("about").style.display = "none";
+    else
+        document.getElementById("about").style.display = "block";
+}
+
 function draw(){
 
     if (curScreen === "game")
         drawgame();
     else if (curScreen === "menu") {
-
         background(gloriaImg);
         textFont('Verdana');
         textSize(30);
@@ -243,7 +250,6 @@ function draw(){
                 text("Highscore: "+highscore[i], GAMEWIDTH*(i+1)/4, 175);
             }
         }
-        
     }
 }
 
@@ -300,7 +306,7 @@ function drawgame(){
     forkx,platformcoord-FORKh-5
     // Activate slingshot:
     if (mouseIsPressed && chances > 0 && birds[currentbird].status === "loaded" &&
-        ((Math.abs(mouseX-forkx) < 20 && Math.abs(mouseY-platformcoord+FORKh) < 20) || slingTaught )){
+        ((Math.abs(mouseX-forkx) < 40 && Math.abs(mouseY-platformcoord+FORKh) < 40) || slingTaught )){
         Body.setPosition(birds[currentbird].body, {x: mouseX , y: mouseY});
         slingTaught = true;
     }
@@ -336,22 +342,28 @@ function mouseReleased(){
             if (Math.abs(mouseX-GAMEWIDTH/4) <= 75) {
                 level = 0;
                 setupLevel(levelOne);
+                aboutbtn.hide();
                 refreshbtn.show();
                 menubtn.show();
+                document.getElementById('runningtitle').style.display = 'none';
                 curScreen = "game";
             }
-            if (Math.abs(mouseX-2*GAMEWIDTH/4) <= 75) {
+            if (Math.abs(mouseX-2*GAMEWIDTH/4) <= 75 && levelunlocked[1]) {
                 level = 1;
                 setupLevel(levelTwo);
+                aboutbtn.hide();
                 refreshbtn.show();
                 menubtn.show();
+                document.getElementById('runningtitle').style.display = 'none';
                 curScreen = "game";
             }
-            if (Math.abs(mouseX-3*GAMEWIDTH/4) <= 75) {
+            if (Math.abs(mouseX-3*GAMEWIDTH/4) <= 75 && levelunlocked[2]) {
                 level = 2;
                 setupLevel(levelThree);
+                aboutbtn.hide();
                 refreshbtn.show();
                 menubtn.show();
+                document.getElementById('runningtitle').style.display = 'none';
                 curScreen = "game";
             }
         }

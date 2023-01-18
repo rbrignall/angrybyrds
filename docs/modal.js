@@ -27,7 +27,5 @@ function gameOverModal(){
     } else {
         text("Lord in Thy Wrath",GAMEWIDTH/2,GAMEHEIGHT/2+CRATEr);
     }
-
-    
     pop();
 }
