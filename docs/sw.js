@@ -5,6 +5,7 @@ const staticCacheName = "angrybyrds-v1.0.0";
 const filesToCache = [
     "./",
 	"./index.html",
+    "./site.webmanifest",
 	"./style.css",
     "./BaseClass.js",
     "./Byrd.js",
@@ -26,7 +27,6 @@ const filesToCache = [
     "./assets/Bstargrey.png",
     "./assets/bggloria.png",
     "./assets/Gloria.mp3",
-    "./assets/site.webmanifest",
     "./assets/apple-touch-icon.png",
     "./assets/favicon.png",
     "./sprites/base.png",
