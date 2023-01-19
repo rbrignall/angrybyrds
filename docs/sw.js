@@ -1,6 +1,6 @@
 // Increase the v number when the app is updated
 
-const staticCacheName = "angrybyrds-v0.0.2";
+const staticCacheName = "angrybyrds-v1.0.0";
 
 const filesToCache = [
     "./",
@@ -29,9 +29,9 @@ const filesToCache = [
     "./assets/Gloria.mp3",
     "./assets/apple-touch-icon.png",
     "./assets/favicon.ico",
-/*    "./sprites/base.png",
+    "./sprites/base.png",
     "./sprites/bg.png",
-    "./sprites/bg2.png",
+    "./sprites/bg2.jpg",
     "./sprites/byrd.png",
     "./sprites/enemyhat.png",
     "./sprites/forkL.png",
@@ -42,7 +42,11 @@ const filesToCache = [
     "./sprites/smoke.png",
     "./sprites/wood2.png",
     "./sprites/woodcan.png",
-    "./sprites/wooddec.png"*/
+    "./sprites/wooddec.png",
+    "https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.min.js"
 ];
 
 
