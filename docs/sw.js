@@ -28,7 +28,7 @@ const filesToCache = [
     "./assets/bggloria.png",
     "./assets/Gloria.mp3",
     "./assets/apple-touch-icon.png",
-    "./assets/favicon.png",
+    "./assets/favicon.ico",
     "./sprites/base.png",
     "./sprites/bg.png",
     "./sprites/bg2.png",
